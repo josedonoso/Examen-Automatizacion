@@ -60,3 +60,60 @@ jobs:
       # El comando 'mvn verify' corre automáticamente las Pruebas de Integración de Failsafe
       - name: Ejecutar Pruebas de Integración (mvn verify)
         run: mvn verify
+        
+        STAGE 4: TEST DE ACEPTACION
+        acceptance_tests:
+          runs-on: ubuntu-lastest
+          needs: test_integration 
+          
+          steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Ejecutar Pruebas de Aceptación
+      # Usaremos un perfil especial de Maven (ej. 'acceptance') para aislar estas pruebas largas.
+      run: mvn verify -Pacceptance 
+      
+# === STAGE 5: DESPLIEGUE EN AMBIENTE DE PRUEBA (Staging) ===
+deploy_staging:
+  runs-on: ubuntu-latest
+  needs: acceptance_tests # Solo despliega si las pruebas de aceptación pasaron
+  environment:
+    name: Staging # Define un ambiente en GitHub (opcional, pero buena práctica)
+    url: http://staging.midominio.com # URL simulada
+  
+  steps:
+    - name: Descargar el artefacto compilado (JAR)
+      uses: actions/download-artifact@v4
+      with:
+        name: target-artifact
+        
+    - name: Simular Despliegue
+      # En un entorno real, aquí iría el script SSH/Docker/Cloud para subir el artefacto
+      run: |
+        echo "Iniciando despliegue de la versión $GITHUB_SHA en ambiente de Staging..."
+        # Comando de despliegue real simulado
+        sleep 5
+        echo "Despliegue exitoso en Staging."
+
+# === STAGE 6: ROLLBACK (Simulación de Rollback) ===
+# Este job se ejecuta si el job 'deploy_staging' falla (o se ejecuta manualmente).
+rollback_deployment:
+  runs-on: ubuntu-latest
+  needs: deploy_staging
+  if: always() && failure() # Esta es la condición clave: SOLO si el job anterior falló
+  
+  steps:
+    - name: Simular Rollback
+      run: |
+        echo "Fallo detectado en el despliegue a Staging."
+        echo "Ejecutando script de rollback a la versión estable anterior (V1.0)..."
+        # Comando para revertir la última versión desplegada
+        sleep 5
+        echo "Rollback completado. La versión estable está de nuevo en línea."
+            
