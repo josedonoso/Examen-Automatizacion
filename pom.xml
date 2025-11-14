@@ -16,13 +16,20 @@
     <dependencies>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
+        <artifactId>junit-jupiter-api</artifactId>
         <version>${junit.version}</version>
         <scope>test</scope>
     </dependency>
     <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+    </dependency>
+    
+    <dependency>
         <groupId>org.junit.platform</groupId>
-        <artifactId>junit-platform-suite</artifactId>
+        <artifactId>junit-platform-runner</artifactId>
         <version>1.10.1</version>
         <scope>test</scope>
     </dependency>
@@ -33,13 +40,7 @@
         <version>${selenium.version}</version>
         <scope>test</scope>
     </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.13.0-M3</version>
-            <scope>test</scope>
-            <type>jar</type>
-        </dependency>
+    
     </dependencies>
 <build>
     <plugins>
