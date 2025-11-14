@@ -47,13 +47,19 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.2.3</version>
+            <version>3.2.5</version>
+            <configuration>
+                <statelessTestsetInfoReporter>true</statelessTestsetInfoReporter>
+                <includes>
+                    <include>**/*Test.java</include>
+                </includes>
+            </configuration>
         </plugin>
         
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>3.2.3</version>
+            <version>3.2.5</version>
             <executions>
                 <execution>
                     <goals>
