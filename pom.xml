@@ -49,7 +49,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.2.5</version>
             <configuration>
-                <statelessTestsetInfoReporter>true</statelessTestsetInfoReporter>
+               
                 <includes>
                     <include>**/*Test.java</include>
                 </includes>
